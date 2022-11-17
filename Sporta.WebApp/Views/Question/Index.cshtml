@@ -1,0 +1,281 @@
+﻿@{
+    ViewData["Title"] = "Question";
+}
+
+<div class="page-content">
+
+    <!-- Create/Edit Question Form Start-->
+    <div class="sidebar">
+        <div class="sidebar-title">
+            <span id="form-title">Question Form </span>
+            <button type="button" class="close" aria-label="Close" data-dismiss="sidebar">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="sidebar-body">
+            <div class="single-upload">
+                <form id="question-form">
+                    <div class="form-row">
+                        <input type="hidden" name="Id" id="txt-id" />
+                        <div class="col-sm-12 mb-2">
+                            <div class="form-group">
+                                <label for="txt-questions" class="floating-label">Question</label>
+                                <textarea name="Question1" id="txt-question" rows="3" autofocus="autofocus" class="form-control"></textarea>
+                                <div class="invalid-input-feedback"></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 mb-2">
+                            <div class="form-group">
+                                <label for="txt-OptionA" class="floating-label label-date">Option A</label>
+                                <input type=text name="OptionA" id="txt-OPtionA" class="form-control" />
+                                <div class="invalid-input-feedback"></div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 mb-2">
+                            <div class="form-group">
+                                <label for="txt-OptionB" class="floating-label label-date">Option B</label>
+                                <input type=text name="OptionB" id="txt-OPtionB" class="form-control" />
+                                <div class="invalid-input-feedback"></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 mb-2">
+                            <div class="form-group">
+                                <label for="txt-OptionC" class="floating-label label-date">Option C</label>
+                                <input type=text name="OptionC" id="txt-OPtionC" class="form-control" />
+                                <div class="invalid-input-feedback"></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 mb-2">
+                            <div class="form-group">
+                                <label for="txt-OptionD" class="floating-label label-date">Option D</label>
+                                <input type=text name="OptionD" id="txt-OPtionD" class="form-control" />
+                                <div class="invalid-input-feedback"></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 mb-2">
+                            <div class="form-group">
+                                <label for="txt-Answer" class="floating-label label-date">Correct Answer</label>
+                                <select class="form-control selectpicker" name="Answer" id="txt-Answer" title="Select Correct Answer">
+                                    <option value="A">Option A</option>
+                                    <option value="B">Option B</option>
+                                    <option value="C">Option C</option>
+                                    <option value="D">Option D</option>
+                                </select>
+                                <div class="invalid-input-feedback"></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 mb-2">
+                            <div class="form-group">
+                                <label for="txt-QuestionLevel" class="floating-label label-date">Question Level</label>
+                                <select class="form-control selectpicker" name="Question" id="txt-QuestionLevel" title="Select Question Level">
+                                    <option value="Easy">Easy</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="Hard">Hard</option>
+                                </select>
+                                <div class="invalid-input-feedback"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-sm-11">
+                            <div class="form-group">
+                                <label for="category-list" class="floating-label">
+                                    Section
+                                </label>
+                                <select class="form-control selectpicker category-list category" name="CategoryId" id="category-list" data-live-search="true" data-size="5">
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class="col-sm-1 mt-1">
+                            <a class="btn btn-sm btn-theme btn-create-category" title="Add new section" onclick="openCategoryPop()"> <i class="fas fa-plus"></i></a>
+                        </div>
+                    </div>
+                    <div class="form-row buttons">
+                        <div class="col-12 text-center">
+                            <div class="row ">
+                                <div class="col-sm-4 offset-2">
+                                    <button class="btn btn-md btn-block btn-theme" id="btn-submit">Submit</button>
+                                </div>
+                                <div class="col-sm-4 ">
+                                    <button type="button" class="btn btn-md btn-block btn-danger" onclick="closeForm()">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <form id="category-form-pop" style="display:none">
+                    <div class="form-row">
+                        <div class="col-sm-10 form-group">
+                            <label class="floating-label" for="txt-cname">Section Name</label>
+                            <input type="text" name="CategoryName" id="txt-cname" class="form-control" />
+                            <div class="invalid-input-feedback">This can not be blank!</div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <button type="submit" class="btn btn-sm btn-theme"> <i class="fas fa-check"></i></button>
+                            <button type="button" class="btn btn-sm btn-danger" onclick="closeCatForm()"><i class="fa fa-times" aria-hidden="true"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="bulk-upload collapse">
+                <span class=""> <i>Tutorial For The Excel Format to be Uploaded</i></span> <br />
+                <video id="myVideo" controls="controls" style="width:100%">
+                    <source src="~/video/HTML5%20Tutorial%20-%201%20-%20Introduction.mp4" type="video/mp4" />
+                </video>
+
+                <div>
+                    <span class=""> <i>Download an Excel Format</i></span> <br />
+                    <a href="/excel-format/ExcelFormatUpdated.xlsx" target="_blank" class="btn btn-sm btn-sp-blue mt-1" id="excel-format">Download &nbsp;<i class="fas fa-download"></i></a>
+                </div>
+                <div class="mt-4">
+                    <form id="addExcelFile">
+                        <div class="form-row">
+                            <div class="col">
+                                <div class="custom-file">
+                                    <input type="file" accept=".xls,.xlsx" class="custom-file-input" id="excelfile">
+                                    <label class="custom-file-label" for="excelfile">Choose file...</label>
+                                    <div class="invalid-input-feedback"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row mt-4">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="category-list-csv" class="floating-label">Section</label>
+                                    <select class="form-control selectpicker category-list border" title="Choose Section" name="Category" id="category-list-csv" data-live-search="true" data-size="5"></select>
+                                </div>
+                            </div>
+                            @*<div class="col-1 mt-1">
+                                <a class="btn btn-sm btn-theme btn-create-category" title="Add new category" onclick=""> <i class="fas fa-plus"></i></a>
+                                </div>*@
+                        </div>
+                        <div class="form-row">
+                            <div class="col-12 text-center">
+                                <div class="row ">
+                                    <div class="col-sm-4 offset-2">
+                                        <button class="btn btn-md btn-block btn-theme" id="btn-submit-excel-file">Submit</button>
+                                    </div>
+                                    <div class="col-sm-4 ">
+                                        <button type="button" class="btn btn-md btn-block btn-danger" onclick="closeForm()">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Question & Category Pills-->
+    <div>
+        <div class="row">
+            <div class="col-3">
+                <ul class="nav nav-pills mb-3" id="questions-pills-tab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="pills-category-tab" data-toggle="pill" href="#pills-category-content" role="tab" aria-controls="pills-category" aria-selected="false">Section</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link " id="pills-questions-tab" data-toggle="pill" href="#pills-questions-content" role="tab" aria-controls="pills-questions" aria-selected="true" data-size="5">Library</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-6">
+                <div class="" id="CategorySearchFormDiv">
+                    <form id="CategorySearchForm">
+                        <div class="form-row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <select class="form-control selectpicker col-md-8 category " required id="category-search" title="Choose Section" data-live-search="true" style="display: inline-block" data-size="5"></select>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="category-form-div" style=" display:none ">
+                    <form id="category-form">
+                        <input type="hidden" name="Id" id="txt-category-id" />
+
+                        <div class="form-row">
+                            <div class="col-sm-8 form-group">
+                                <label class="floating-label" for="txt-name">Section Name</label>
+                                <input type="text" name="CategoryName" id="txt-cat-name" class="form-control" />
+                                <div class="invalid-input-feedback">This can not be blank!</div>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <button type="submit" class="btn btn-theme mr-2" id="category-submit"> Add Section</button>
+                                <button type="button" class="btn btn-danger" id="btn-cancel" onclick="openCategoryForm(false)">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-3">
+                <div id="question-btn-div">
+                    <button class="btn btn-sm btn-theme  create_btn border-50 float-right" id="btn-create-drive" onclick="openBulkForm()">Bulk Upload <i class="fas fa-plus"></i></button>
+                    <button class="btn btn-sm btn-theme create_btn border-50 float-right mr-2" id="btn-create-drive" onclick="openQuestionForm()">Add Ques <i class="fas fa-plus"></i></button>
+                </div>
+                <div id="category-btn-div" class="collapse">
+                    <button class="btn btn-sm btn-theme  create_btn border-50 float-right" id="btn-create-category" onclick="openCategoryForm()">Add Section <i class="fas fa-plus"></i></button>
+                </div>
+            </div>
+        </div>
+        <!--questions Tab content-->
+        <div class="tab-content" id="pills-questions">
+
+            <!--category Tab content-->
+            <div class="tab-pane fade show active mb-2" id="pills-category-content" role="tabpanel" aria-labelledby="pills-profile-tab">
+
+                <div class="tab-pane active" id="tab-category">
+                    <hr class="border-theme" />
+
+                    <div id="category-card" class="table table-sm  table-responsive-md w-100">
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade mb-2" id="pills-questions-content" role="tabpanel" aria-labelledby="pills-home-tab">
+                <div class="tab-pane active" id="tab-questions">
+                    <hr class="border-theme" />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4 class="text-theme text-center mt-1" id="categoryNameSpan"></h4>
+                        </div>
+                    </div>
+
+                    <table id="question-list" style="display:none" class="table table-sm  table-responsive-md w-100">
+                        <thead>
+                            <tr>
+                                <th>Question</th>
+                                <th>Option A</th>
+                                <th>Option B</th>
+                                <th>Option C</th>
+                                <th>Option D</th>
+                                <th>Correct Answer</th>
+                                <th class="doNotExport">Actions</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/ckeditor/ckeditor.js"></script>
+    <script src="~/js/sporta-js/xls-utils/xlsx_full.min.js"></script>
+    <script src="~/js/sporta-js/questions.js" asp-append-version="true"></script>
+}
+<style>
+    #txt-question {
+        height: 150px;
+        width: 100%;
+    }
+</style>

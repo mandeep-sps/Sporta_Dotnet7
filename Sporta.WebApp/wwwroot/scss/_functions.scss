@@ -1,0 +1,14 @@
+﻿@import 'variables';
+
+
+@function color-contrast($color) {
+    $lightness: lightness($color);
+
+    @if ($lightness >= 90) {
+        @return $color-text-dark;
+    }
+    @else {
+        @return $color-text-light;
+    }
+}
+

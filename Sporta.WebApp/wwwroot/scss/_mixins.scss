@@ -1,0 +1,149 @@
+﻿@import 'variables';
+//This file contains all the mixins
+
+//Hover/Focus/Active mixins
+@mixin hover {
+    &:hover {
+        @content;
+    }
+}
+
+@mixin hover-focus {
+    &:hover,
+    &:focus {
+        @content;
+    }
+}
+
+@mixin plain-hover-focus {
+    &,
+    &:hover,
+    &:focus {
+        @content;
+    }
+}
+
+@mixin hover-focus-active {
+    &:hover,
+    &:focus,
+    &:active {
+        @content;
+    }
+}
+
+
+//Text mixins
+@mixin text-variant($class, $color) {
+    #{$class} {
+        color: $color !important;
+    }
+
+    a#{$class} {
+        @include hover-focus {
+            color: darken($color, 10%) !important;
+        }
+    }
+}
+
+
+
+//Gradients mixins
+@mixin gradient-bg($bg-color) {
+    @if $enable-gradient {
+        background: $bg-color linear-gradient(180deg, mix($body-bg, $bg-color, 15%), $bg-color) repeat-x;
+    }
+    @else {
+        background-color: $bg-color;
+    }
+}
+
+
+
+//Background mixins
+@mixin bg-variant($class, $color) {
+    #{$class} {
+        background-color: $color !important;
+    }
+
+    a#{$class},
+    button#{$class} {
+        @include hover-focus {
+            background-color: darken($color, 10%) !important;
+        }
+    }
+}
+
+
+//Border Mixins
+@mixin border-variant($class,$color) {
+    #{$class} {
+        border-color: $color !important;
+    }
+}
+
+
+//Button mixins
+@mixin button-variant($class,$background,$border,$hover-background: darken($background, 7.5%), $hover-border: darken($border, 10%), $active-background: darken($background, 15%), $active-border: darken($border, 12.5%)) {
+    #{$class} {
+        @include gradient-bg($background);
+        color: color-contrast($background) !important;
+        border-color: $border;
+
+
+        @include hover {
+            color: color-contrast($background);
+            @include gradient-bg($hover-background);
+            border-color: $hover-border;
+        }
+        // Disabled comes first so active can properly restyle
+        &.disabled,
+        &:disabled {
+            color: color-contrast($background);
+            background-color: $background;
+            border-color: $border;
+        }
+
+        &:not(:disabled):not(.disabled):active,
+        &:not(:disabled):not(.disabled).active,
+        .show > &.dropdown-toggle {
+            color: color-contrast($active-background) !important;
+            background-color: $active-background !important;
+
+            @if $enable-gradient {
+                background-image: none; // Remove the gradient for the pressed/active state
+            }
+
+            border-color: $active-border !important;
+        }
+    }
+}
+
+
+@mixin button-outline-variant($class,$color, $color-hover: color-contrast($color), $active-background: $color, $active-border: $color) {
+    #{$class} {
+        color: $color;
+        background-color: transparent;
+        background-image: none;
+        border-color: $color;
+
+        &:hover {
+            color: $color-hover;
+            background-color: $active-background;
+            border-color: $active-border;
+        }
+
+        &.disabled,
+        &:disabled {
+            color: $color;
+            background-color: transparent;
+        }
+
+        &:not(:disabled):not(.disabled):active,
+        &:not(:disabled):not(.disabled).active,
+        .show > &.dropdown-toggle {
+            color: color-contrast($active-background);
+            background-color: $active-background;
+            border-color: $active-border;
+        }
+    }
+}

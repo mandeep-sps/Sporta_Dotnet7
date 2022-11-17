@@ -1,0 +1,186 @@
+﻿@{
+    Layout = null;
+    @inject Utils util
+    var env = util.GetEnvironment();
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sporta</title>
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/matt.min.css" />
+    <link rel="stylesheet" href="~/css/sporta-css/master.min.css" />
+    <link rel="stylesheet" href="~/css/sporta-css/test-window.min.css" />
+    <link rel="icon" href="/img/sps-icon.png" sizes="16x16 32x32" type="image/png">
+</head>
+
+<body>
+
+    <header>
+        <div class="text-center bg-dark py-3">
+            <h2 class="text-white" id="test-timer-countdown">00:00</h2>
+        </div>
+    </header>
+
+    <main role="main" class="container-fluid mb-5">
+        <input type="hidden" id="category-id" value="@ViewData["CategoryId"]" />
+        <input type="hidden" id="drive-id" value="@ViewData["DriveId"]" />
+        <input type="hidden" id="result-id" value="@ViewData["ResultId"]" />
+
+
+        <div class="question_area">
+            <div class="text-center">
+                <div id="stepProgressBar"></div>
+            </div>
+            <div class="row">
+                <div class="test-question">
+                    <span id="question-name"></span>
+                </div>
+
+                <div class="col-12">
+                    <hr class="border" />
+
+                    <br />
+                    <div class="test-options ml-3 px-5">
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <div class="option-group">
+                                    <input id="option-a-input" name="options" type="radio" />
+                                    <label for="option-a-input" id="option-a-label" class="option-lable"></label>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <div class="option-group">
+                                    <input id="option-b-input" name="options" type="radio" />
+                                    <label for="option-b-input" id="option-b-label" class="option-lable"></label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="option-group">
+                                    <input id="option-c-input" name="options" type="radio" />
+                                    <label for="option-c-input" id="option-c-label" class="option-lable"></label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="option-group">
+                                    <input id="option-d-input" name="options" type="radio" />
+                                    <label for="option-d-input" id="option-d-label" class="option-lable"></label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+
+    <!--For popup dialog box-->
+    <div id="sporta-modal-dialog-div"></div>
+
+
+    <footer class="bg-mid-black footer text-muted fixed-bottom">
+        <div class="d-flex justify-content-around">
+            <button id="btn-previous" style="display:none" onclick="PreviousQuestion()" class="btn btn-primary  my-2 w-25">Previous</button>
+            <button id="btn-next" onclick="NextQuestion()" class="btn btn-primary mx-4 my-2 w-25">Next</button>
+        </div>
+
+        <hr />
+        <div class="container-fluid text-center">
+            &copy; @DateTime.Now.Year - SoftProdigy
+        </div>
+    </footer>
+
+
+    <script src="~/js/jquery-3.5.1.min.js"></script>
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/font-awesome-5.14.0.js"></script>
+    <script>
+        function getEnv(){
+            return '@env';
+        }
+    </script>
+    <script src="~/js/sporta-js/common.js" asp-append-version="true"></script>
+    <script src="~/js/sporta-js/test-window.js" asp-append-version="true"></script>
+</body>
+</html>
+<style>
+
+    #stepProgressBar {
+        margin-bottom: 40px;
+    }
+
+    .step {
+        text-align: center;
+        display: inline-block;
+        margin-bottom: 10px;
+    }
+
+    .step-text {
+        margin-bottom: 10px;
+        color: #28a745;
+    }
+
+    .bullet {
+        height: 40px;
+        width: 40px;
+        border-radius: 100%;
+        border: 7px solid grey;
+        color: #28a745;
+        display: inline-block;
+        position: relative;
+        transition: background-color 500ms;
+        line-height: 27px;
+        color: #fff;
+        margin: 0 6px;
+    }
+
+        /*    .bullet:hover{
+                background-color:blue;
+                cursor:pointer;
+            }*/
+        .bullet.selected {
+            color: white;
+            background-color: green;
+            border-color: green;
+            /* outline: 2px solid; */
+            /* z-index: 9999; */
+        }
+
+        .bullet.not-selected {
+            color: white;
+            background-color: red;
+            border-color: red;
+            /* outline: 2px solid; */
+            /* z-index: 9999; */
+        }
+
+        .bullet::after {
+            content: '';
+            position: absolute;
+            height: 6px;
+            width: 16px;
+            background-color: grey;
+            left: 33px;
+            bottom: 9px;
+            /* z-index: -1; */
+        }
+
+        .bullet.selected::after {
+            background-color: green;
+        }
+
+        .bullet.not-selected::after {
+            background-color: red;
+        }
+
+    .step:last-child .bullet::after {
+        display: none;
+    }
+</style>

@@ -1,0 +1,300 @@
+﻿@inject Utils util
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Sporta</title>
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/bootstrap-select.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/datatables.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/font-awesome.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/matt.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/sporta-css/master.min.css" asp-append-version="true" />
+    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/material_blue.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="icon" href="/img/SP-favicon.ico" sizes="16x16 32x32" type="image/png">
+</head>
+<body>
+    <!--Loader-->
+    <div class="preloader-main-div" id="preloader">
+        <div class="preloader-center-div">
+            <div class="rotor"></div>
+            <h1>
+                <img src="~/img/sp.gif" class="img-fluid" asp-append-version="true" width="100" alt="Alternate Text" />
+            </h1>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="passwordModal" data-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Change Password</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="changePassForm">
+                        <div class="">
+                            <div class="form-row">
+                                <div class="col-8 offset-sm-2 form-group">
+                                    <input type="password" id="txtOldPassword" class="form-control form-control-sm" placeholder="Enter Old Password" />
+                                    <div class="invalid-input-feedback"></div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-8 offset-sm-2 form-group">
+                                    <input type="password" id="txtPassword" class="form-control form-control-sm" placeholder="Enter New Password" />
+                                    <div class="invalid-input-feedback"></div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-8 offset-sm-2 form-group">
+                                    <input type="password" id="txtConfirmPassword" class="form-control form-control-sm" placeholder="Confirm Password" />
+                                    <div class="invalid-input-feedback"></div>
+                                    <span id="message"></span>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-8 offset-sm-2">
+                                    <input type="button" id="btnSubmit" value="Submit" class="btn btn-theme btn-block" onclick="submitPasswordForm()" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm blue_gradient  box-shadow">
+            <div class="container-fluid">
+                <a asp-controller="Home" asp-action="Index"><img src="~/img/white_logo.png" class="img-fluid" width="150" /></a>
+                <div class="right_menu">
+                    <span id="emailTxt" class="pr-2" data-toggle="tooltip" data-placement="top" title="@User.GetUsername()" style="color:white">@User.GetName()</span>
+                    <div class="dropdown d-inline logout_sec">
+                        <button class="btn  dropdown-toggle" type="button" data-toggle="dropdown"><i class="fas fa-user"></i></button>
+                        <ul class="dropdown-menu ">
+                            <li><a href="#" data-toggle="modal" data-target="#passwordModal"><i class="fas fa-key" data-toggle="tooltip" data-placement="top" title="Change Password"></i> Change Password </a></li>
+                            <li><a href="#" data-toggle="tooltip" data-placement="top" title="Logout" onclick="logout()"><i class="fas fa-power-off"></i> Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="nav_bottom_menu">
+
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm bg-white   box-shadow mb-4">
+            <div class="container-fluid">
+
+
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse  d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1 pl-4">
+                        @if (User.GetUserRole() == 2 || User.GetUserRole() == 1)
+                        {
+                            <li class="nav-item" id="navbar-dashboard">
+                                <a class="nav-link " asp-area="" asp-controller="ApplicationUser" asp-action="UserIndex"> <i class="fa fa-desktop"></i> Dashboard</a>
+                            </li>
+
+                            <li class="nav-item" id="navbar-drive">
+                                <a class="nav-link " asp-area="" asp-controller="Drive" asp-action="Index"><i class="fa fa-tasks"></i> Manage Drives</a>
+                            </li>
+
+                            @if (User.GetUserRole() == 1)
+                            {
+                                <li class="nav-item dropdown active" id="navbar-users">
+                                    <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+                                        <i class="fa fa-user" aria-hidden="true"></i> Users
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" asp-controller="ApplicationUser" asp-action="Index"><i class="fa fa-user" aria-hidden="true"></i> Executives</a>
+                                        <a class="dropdown-item" asp-controller="ApplicationUser" asp-action="Candidates"><i class="fa fa-id-card" aria-hidden="true"></i> Candidates</a>
+                                    </div>
+                                </li>
+                            }
+                            @if (User.GetUserRole() == 2)
+                            {
+                                <li class="nav-item " id="navbar-users">
+
+                                    <a class="nav-link" asp-controller="ApplicationUser" asp-action="Candidates"><i class="fa fa-user" aria-hidden="true"></i> Candidates</a>
+
+                                </li>
+                            }
+                            <li class="nav-item" id="navbar-question">
+                                <a class="nav-link" asp-action="Index" asp-controller="Question"><i class="fa fa-book" aria-hidden="true"></i> Library</a>
+                            </li>
+                            <li class="nav-item" id="navbar-reports">
+                                <a class="nav-link" asp-area="" asp-controller="Report" asp-action="Index"><i class="fa fa-flag" aria-hidden="true"></i> Reports</a>
+                            </li>
+                        }
+
+                    </ul>
+                </div>
+
+            </div>
+        </nav>
+    </div>
+    <div class="container-fluid">
+        <main role="main" id="render-body" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <!--For popup dialog box-->
+    <div id="sporta-modal-dialog-div"></div>
+
+    <footer class="bg-mid-black footer text-muted fixed-bottom">
+        <div class="container-fluid text-center text-white">
+            <div class="row align-items-center">
+                <div class="col-md-6">&copy; @DateTime.Now.Year - SoftProdigy All rights reserved.</div>
+                <div class="col-md-6">
+                    <ul class="socials_links">
+                        <li>
+                            <a target="_blank" href="https://www.facebook.com/softprodigysolutions" class="facebook">
+                                <i class="fab fa-facebook-square"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a target="_blank" href="https://twitter.com/softprodigy" class="twitter">
+                                <i class="fab fa-twitter-square"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a target="_blank" href="https://www.linkedin.com/company/softprodigy" class="linkedin">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a target="_blank" href="https://www.instagram.com/softprodigy_official/" class="instagram">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="~/js/jquery-3.5.1.min.js" asp-append-version="true"></script>
+    <script src="~/js/popper.min.js" asp-append-version="true"></script>
+    <script src="~/lib/signalr/dist/browser/signalr.min.js" asp-append-version="true"></script>
+    <script src="~/js/bootstrap.min.js" asp-append-version="true"></script>
+    <script src="~/js/datatables.min.js" asp-append-version="true"></script>
+    <script src="~/js/bootstrap-select.min.js" asp-append-version="true"></script>
+    <script src="~/js/font-awesome-5.14.0.js" asp-append-version="true"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="~/js/sporta-js/extensions.js" asp-append-version="true"></script>
+    <script src="~/js/sporta-js/common.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        var userRole='@User.GetUserRole()';
+         $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        });
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+    <script>
+        var env='@util.GetEnvironment()';
+
+        $('#txtConfirmPassword').on('keyup', function () {
+            if ($('#txtPassword').val() == $('#txtConfirmPassword').val()) {
+                $('#message').html('Matching').css('color', 'green');
+            } else
+                $('#message').html('Not Matching').css('color', 'red');
+        });
+
+
+        function submitPasswordForm() {
+            var oldpassword = $("#txtOldPassword").val();
+            var newpassword = $("#txtPassword").val();
+            var confirmpassword = $("#txtConfirmPassword").val();
+            if (oldpassword == "" || newpassword == "" || confirmpassword == "") {
+                SportaUtil.MessageBoxDanger('Please fill all the details')
+            }
+            else if (oldpassword == newpassword) {
+                SportaUtil.MessageBoxDanger("Old password and New Password cannot be same")
+            }
+            else if (newpassword != confirmpassword) {
+                SportaUtil.MessageBoxDanger("password mismatch")
+            }
+            else {
+                if (validatePassForm('#changePassForm')) {
+                    $.ajax({
+                        url: "/ApplicationUser/ChangePassword",
+                        type: 'POST',
+                        data: { 'newPassword': newpassword, 'oldPassword': oldpassword },
+                        success: function (response) {
+                            if (response.data) {
+                                SportaUtil.MessageBoxSuccess(response.message);
+                                SportaForms.ResetForm('#changePassForm');
+                                $("#passwordModal").modal('hide');
+                            }
+                            else {
+                                SportaUtil.MessageBoxDanger(response.message)
+                            }
+
+                        },
+                        error: function (resposne) {
+
+                        }
+                    });
+                }
+            }
+
+        }
+
+        function toogleNavbar(id) {
+            $(".nav-item").removeClass('active');
+            $("#"+id).addClass('active');
+        }
+
+        function validatePassForm(formId) {
+            SportaForms.ClearValidataionErrors(formId);
+            var blankChecks = ["#txtOldPassword", "#txtPassword", "#txtConfirmPassword"];
+            SportaForms.BlankInputChecks(blankChecks);
+            return SportaForms.FormValidationStatus(formId);
+        }
+
+
+        function logout() {
+            SportaUtil.ConfirmDialogue("Are you sure to logout?", null, function () {
+                location.href = '/ApplicationUser/logout';
+            })
+        }
+
+
+        //Loader timeout
+        var globalTimers = window.setTimeout(function () {
+            var timer;
+            $(document).ajaxStart(function () {
+                timer = setTimeout(function () { $('#preloader').show(); }, 1000);
+
+            }).ajaxStop(function () {
+                clearTimeout(timer);
+                $('#preloader').hide();
+            });
+        }, 0)
+
+        while (globalTimers--) {
+            clearTimeout(globalTimers);
+            $('#preloader').hide();
+        }
+        //Loader timeout end
+
+        //Exception handling through JS
+        $(document).ajaxError(function( event, jqxhr, settings, thrownError ) {
+            if (env != 'Development') {
+                $(document.body).html(jqxhr.responseText);
+            }
+        });
+    </script>
+</body>
+</html>

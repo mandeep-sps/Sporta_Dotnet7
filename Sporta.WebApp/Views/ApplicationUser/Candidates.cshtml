@@ -1,0 +1,121 @@
+﻿@model Sporta.WebApp.Models.ViewModel.ApplicationUserRequestModel
+@{
+    ViewData["Title"] = "Candidates";
+    var driveId = ViewBag.Id;
+}
+<div class="page-content">
+    <div class="row">
+        <div class="col-md-5">
+            <div class="form-row">
+                <div class="col">
+                    <div class="form-group">
+                        <select class="form-control selectpicker col-md-8" required id="drive-list" title="Choose Drive" data-live-search="true" style="display: inline-block"></select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7">
+            <h4 class="text-theme mt-1" id="driveSpan"></h4>
+        </div>
+    </div>
+
+    <div class="sidebar">
+        <div class="sidebar-title">
+            Edit Candidate Form
+            <button type="button" class="close" aria-label="Close" data-dismiss="sidebar">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="sidebar-body">
+            <form id="edit-candidate-form" method="post">
+                <div class="form-row">
+                    <div class="col-sm-12 form-group">
+                        <label for="txt-first-name" class="floating-label">Name</label>
+                        <input type="text" asp-for="Name" id="txt-name" class="form-control " />
+                        <input type="hidden" asp-for="Id" id="txt-id" class="form-control " />
+                        <input type="hidden" asp-for="CandidateRequestModel.DriveId" id="txt-driveId" class="form-control " />
+                        <div class="invalid-input-feedback"></div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-sm-12 form-group">
+                        <label for="txt-email-id" class="floating-label">Email</label>
+                        <input type="text" asp-for="EmailId" id="txt-email-id" class="form-control " />
+                        <div class="invalid-input-feedback"></div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-sm-12 form-group">
+                        <label for="txt-contact-no" class="floating-label">Contact No. </label>
+                        <input type="tel" maxlength="10" asp-for="CandidateRequestModel.ContactNumber" id="txt-contact-no" class="form-control " />
+                        <div class="invalid-input-feedback"></div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-sm-6 form-group">
+                        <label for="txt-rollNo" class="floating-label">Roll No.</label>
+                        <input type="text" asp-for="CandidateRequestModel.RollNo" id="txt-rollNo" class="form-control" />
+                        <div class="invalid-input-feedback"></div>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <label for="branches-list" class="floating-label">Branch</label>
+                        <select class="form-control selectpicker" asp-for="CandidateRequestModel.Branch" title="Choose Branch" id="branches-list" data-size="5"></select>
+                        <div class="invalid-input-feedback"></div>
+                    </div>
+                </div>
+                <div class="form-row ">
+                    <div class="col-sm-12 text-center">
+                        <button class="btn btn-theme btn-block" type="submit" id="updateCandidate"> Update</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row" id="candidateTabDiv" style="display:none">
+        <div class="col-sm-12">
+            <!-- Users List -->
+            <table id="candidate-list" class="table table-sm w-100 table-responsive-md">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Roll No</th>
+                        <th>Branch</th>
+                        <th>Contact No.</th>
+                        @if (User.GetUserRole() == (int)UserRole.Admin)
+                        {
+                            <th class="doNotExport">Action</th>
+                        }
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Roll No</th>
+                        <th>Branch</th>
+                        <th>Contact No.</th>
+                        @if (User.GetUserRole() == (int)UserRole.Admin)
+                        {
+                            <th class="doNotExport">Action</th>
+                        }
+                    </tr>
+                </tfoot>
+            </table>
+            <!-- Users List End -->
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+<script type="text/javascript" src="~/js/sporta-js/candidate.js" asp-append-version="true"></script>
+<script>
+    var dId = @driveId;
+
+     if (dId > 0) {
+        viewEnrolled(dId);
+     }
+</script>
+}

@@ -1,0 +1,26 @@
+﻿body {
+  /* background-image: linear-gradient(270deg,transparentize(map-get($colors,"sp-blue"),0.4),transparentize($theme-color,0.4)), url('../../img/login_bk.jpg');*/
+  background-image: url("../../img/login_bk.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center; }
+
+.content-container {
+  min-height: 80vh;
+  height: auto; }
+
+.form_sec {
+  margin: 20px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #fff; }
+
+.intro-content {
+  color: #fff;
+  margin: 20px;
+  padding: 10px 20px; }

@@ -1,0 +1,35 @@
+﻿// This contains all the Variables
+
+//B&W variants
+$white: #fff !default;
+$gray-100: #f8f9fa !default;
+$gray-200: #e9ecef !default;
+$gray-300: #dee2e6 !default;
+$gray-400: #ced4da !default;
+$gray-500: #adb5bd !default;
+$gray-600: #6c757d !default;
+$gray-700: #495057 !default;
+$gray-800: #343a40 !default;
+$gray-900: #212529 !default;
+$black: #000 !default;
+
+$colors: ("sp-blue":#0199d4,"sp-dark":#474b4b, "black" : #000, "mid-black" : #222f3e, "grey" : #c8d6e5, "white" : #fff, "red" : #d92550, "orange" : #ff6f3D, "yellow" : #fbc531, "green" : #2ecc71, "teal" : #079992, "blue" : #4e73df, "purple" : #40508D );
+
+
+//Body color
+$body-bg: $white !default;
+$body-color: $gray-900 !default;
+
+
+
+$theme-color-name: "sp-blue" !default;
+$theme-color: map-get($colors,$theme-color-name) !default;
+
+
+
+// Customize the light and dark text colors for use in our YIQ color contrast function.
+$color-text-dark: $gray-900 !default;
+$color-text-light: $white !default;
+
+//Boolean values
+$enable-gradient: false !default

@@ -1,0 +1,176 @@
+﻿@model Sporta.WebApp.Models.ViewModel.ApplicationUserRequestModel
+@{
+    Layout = null;
+}
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title> Sporta</title>
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="~/css/matt.min.css" />
+    <link rel="stylesheet" href="~/css/sporta-css/master.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/sporta-css/home.min.css" asp-append-version="true" />
+    <link rel="icon" href="/img/SP-favicon.ico" sizes="16x16 32x32" type="image/png">
+</head>
+<body>
+    <!--Loader-->
+    <div class="preloader-main-div" id="preloader">
+        <div class="preloader-center-div">
+            <div class="rotor"></div>
+            <h1>
+                <img src="~/img/sp.gif" class="img-fluid" width="100" alt="Alternate Text" />
+            </h1>
+
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row home_layout">
+            <div class="col-sm-6 background_white">
+                <div class="intro-content  p-5">
+                    <img src="/img/sps-logo.png" class="img-fluid" width="350">
+                    <h2>Online Recruitment  <span class="blue_color">Portal</span></h2>
+                    <p class="font-weight-bold">
+                        Businesses today are fueled by technology and there is no room for slip-ups. If you’re new to the world of digital business or if you’re still grabbing ideas on how to make the most of the digital market, we’re here to help!
+                    </p>
+                    <p class="pt-1 font-weight-bold">
+                        We house a huge team of experts that are well-trained and experienced in diverse technical fortes. So, no matter what kind of technical support you’re seeking – we are here to serve you with the best solutions.
+                    </p>
+                    <ul class="socials_links">
+                        <li>
+                            <a target="_blank" href="https://www.facebook.com/softprodigysolutions" class="facebook">
+                                <i class="fab fa-facebook-square"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a target="_blank" href="https://twitter.com/softprodigy" class="twitter">
+                                <i class="fab fa-twitter-square"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a target="_blank" href="https://www.linkedin.com/company/softprodigy" class="linkedin">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a target="_blank" href="https://www.instagram.com/softprodigy_official/" class="instagram">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-sm-6  background_black">
+                <div class="signup-form-container collapse form_sec">
+                    <h1 class="text-center mb-3">Registration</h1>
+                    <form id="signup-form" method="post">
+                        <div class="form-row">
+                            <div class="col-sm-12 form-group">
+                                <!-- <label for="txt-first-name" class="floating-label">Name</label>-->
+                                <i class="fas fa-user"></i>
+                                <input type="text" asp-for="Name" id="txt-name" class="form-control " placeholder="Name" />
+                                <div class="invalid-input-feedback mt-1 ml-4"></div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-sm-12 form-group">
+                                <i class="fas fa-envelope-open"></i>
+                                <input type="text" asp-for="EmailId" id="txt-email-id" class="form-control" placeholder="Email" />
+                                <div class="invalid-input-feedback mt-1 ml-4"></div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-sm-12 form-group">
+                                <i class="fa fa-address-book"></i>
+                                <input type="tel" asp-for="CandidateRequestModel.ContactNumber" placeholder="Contact No." id="txt-contact-no" class="form-control " />
+                                <div class="invalid-input-feedback mt-1 ml-4"></div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-sm-6 form-group">
+                                <i class="fas fa-list-ol"></i>
+                                <input type="text" asp-for="CandidateRequestModel.RollNo" id="txt-rollNo" class="form-control" placeholder="Roll No" />
+                                <div class="invalid-input-feedback mt-1 ml-4"></div>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                @*<input type="text" asp-for="CandidateRequestModel.Batch" id="txt-batch" class="form-control form-control-sm" />*@
+                                <i class="fas fa-user-graduate"></i>
+                                <select class="form-control" asp-for="CandidateRequestModel.Branch" title="Choose Branch" id="branches-list" data-size="5"></select>
+                                <div class="invalid-input-feedback mt-1 ml-4"></div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-sm-12 form-group">
+                                <i class="fas fa-ticket-alt"></i>
+                                <input type="text" asp-for="CandidateRequestModel.Token " id="txt-token" class="form-control" placeholder="Token" />
+                                <div class="invalid-input-feedback mt-1 ml-4"></div>
+                            </div>
+                        </div>
+                        <div class="form-row ">
+                            <div class="col-sm-12 text-center">
+                                <button type="submit" class="btn btn-theme btn-block mb-3"> Sign up</button>
+                                <small>Already have an account <a class="hyper_link" onclick="showLoginForm()"> Sign in</a></small>
+                            </div>
+                        </div>
+                    </form>
+                    
+                </div>
+
+                <div class="login-form-container  form_sec">
+                    <h1 class="text-center">Login</h1>
+
+                    <form id="login-form" method="post" asp-action="Login" asp-controller="ApplicationUser">
+                        <div class="row">
+                            <div class="col-12 form-group">
+                                <i class="fas fa-envelope-open-text"></i>
+                                <!-- <label for="txt-login-email-id">Email</label>-->
+                                <input type="text" name="EmailId" id="txt-login-email-id" class="form-control form-control-sm" placeholder="Enter Email" />
+                                <div class="invalid-input-feedback mt-1 ml-4"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            @*<label for="txt-login-password">Password / Token ID</label>*@
+                            <div class="col-12 form-group">
+                                <i class="fas fa-lock"></i>
+                                <input type="password" name="UserPassword" id="txt-login-password" class="form-control form-control-sm" placeholder="Enter Password / Token ID" />
+                                <div class="invalid-input-feedback mt-1 ml-4"></div>
+                                <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                            </div>
+
+                        </div>
+                        <div class="row">
+
+                            <div class="col-12 text-center">
+                                <button type="submit" class="btn btn-theme btn-block mb-3"> Sign in</button>
+                                <small>  Not have an account <a class="hyper_link" onclick="showSignUpForm()">Sign up</a></small>
+                            </div>
+                        </div>
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--For popup dialog box-->
+    <div id="sporta-modal-dialog-div"></div>
+    <script src="~/js/jquery-3.5.1.min.js"></script>
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/font-awesome-5.14.0.js"></script>
+    <script src="~/js/sporta-js/extensions.js" asp-append-version="true"></script>
+    <script src="~/js/sporta-js/common.js" asp-append-version="true"></script>
+    <script src="~/js/sporta-js/home.js" asp-append-version="true"></script>
+</body>
+
+</html>
+<style>
+    .field-icon {
+        float: right;
+        margin-left: -25px;
+        margin-top: -25px;
+        position: relative;
+        z-index: 2;
+    }
+
+</style>

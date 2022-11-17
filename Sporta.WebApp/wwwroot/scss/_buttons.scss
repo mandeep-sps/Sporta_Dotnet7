@@ -1,0 +1,35 @@
+﻿@import 'variables';
+@import 'mixins';
+
+
+//
+//Button variants
+//
+
+@each $color,$value in $colors {
+    @include button-variant(".btn-#{$color}",$value,$value);
+    @include button-outline-variant(".btn-outline-#{$color}",$value);
+}
+
+
+
+.btn-theme {
+    @extend .btn-#{$theme-color-name};
+}
+
+
+.btn-outline-theme {
+    @extend .btn-outline-#{$theme-color-name};
+}
+
+.text-theme {
+    @extend .text-#{$theme-color-name};
+}
+
+.bg-theme {
+    @extend .bg-#{$theme-color-name};
+}
+
+.border-theme {
+    @extend .border-#{$theme-color-name};
+}

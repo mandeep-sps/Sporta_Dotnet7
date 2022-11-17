@@ -1,0 +1,29 @@
+﻿@model IEnumerable<CategoryModel>
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-sm-3 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h5 class="card-title  text-theme font-weight-bold" >
+                                <a href="javascript:void(0)" style="text-decoration:none" data-placement="top" title="View Questions" onclick="viewQuestions('@item.Id')">
+                                    @item.CategoryName
+                                </a>
+                            </h5>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="btn-group">
+                                <button class="btn btn-sm btn-outline-grey" data-toggle="tooltip" data-placement="top" title="Edit Section" onclick="openCategoryForm('false','@item.Id')"><i class="fas fa-pencil-alt"></i></button>
+                                <button class="btn btn-sm btn-outline-red" data-toggle="tooltip" data-placement="top" title="Delete Section" onclick="deleteCategory('@item.Id')"><i class="far fa-trash-alt"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="card-text">@item.AllocatedQuestions</p>
+                </div>
+            </div>
+        </div>
+    }
+</div>

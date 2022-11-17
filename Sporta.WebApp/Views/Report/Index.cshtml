@@ -1,0 +1,117 @@
+﻿@{
+    ViewData["Title"] = "Report";
+    var driveId = ViewBag.Id;
+}
+
+
+<div class="page-content">
+    <div class="row">
+        <div class="col-md-5">
+            <form id="driveSearchReportForm">
+                <div class="form-row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="floating-label">Search By Drive </label>
+                            <select class="form-control selectpicker col-md-8" required id="categories-list-Reports" title="Choose Drive" data-live-search="true" data-size="5" style="display: inline-block"></select>
+                            <button type="submit" class="btn btn-outline-sp-blue" style="display: inline-block">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-md-7">
+
+            <h4 class="text-theme mt-1 d-inline-block" id="driveReport"></h4>
+            <button class="btn btn-sm btn-theme create_btn border-10 float-right ml-3" id="btn-download-driveDetail" style="display:none" onclick="downloadReport()">Download Drive Detail <i class="fas fa-download"></i></button>
+
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="tableModal" data-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Result Detail</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row font-italic">
+                        <div class="col-6"><h6 class="float-left" id="txt_name"></h6></div>
+                        <div class="col-6"><h6 class="float-right" id="txt_email"></h6></div>
+                        <div class="col-6"><h6 class="float-left" id="txt_branch"></h6></div>
+                        <div class="col-6"><h6 class="float-right" id="txt_contact"></h6></div>
+                    </div>
+                    <table class="table mt-2">
+                        <thead>
+                            <tr>
+                                <th scope="col">Sections</th>
+                                <th scope="col">Total Questions</th>
+                                <th scope="col">Attempted</th>
+                                <th scope="col">Alloted Time</th>
+                                <th scope="col">Time Taken</th>
+                                <th scope="col">Focus Lost</th>
+                                <th scope="col">Score</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="reportTabDiv" style="display:none">
+        <div class="col-sm-12">
+            <!-- Report List -->
+            <table id="report-list" class="table table-sm w-100 table-responsive-md">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Roll No</th>
+                        <th>Branch</th>
+                        <th>Contact No.</th>
+                        <th>Status</th>
+                        <th>Total Questions</th>
+                        <th>Attempted</th>
+                        <th>Score</th>
+                        <th class="doNotExport">Action</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Roll No</th>
+                        <th>Branch</th>
+                        <th>Contact No.</th>
+                        <th>Status</th>
+                        <th>Total Questions</th>
+                        <th>Attempted</th>
+                        <th>Score</th>
+                        <th class="doNotExport">Action</th>
+                    </tr>
+                </tfoot>
+            </table>
+            <!-- Report List End -->
+        </div>
+    </div>
+</div>
+@section Scripts{
+<script type="text/javascript" src="~/js/sporta-js/Report.js" asp-append-version="true"></script>
+<script>
+     var dId = @driveId;
+
+    if (dId > 0) {       
+        loadReport(dId);
+    }
+</script>
+
+}

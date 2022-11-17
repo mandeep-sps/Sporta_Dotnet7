@@ -1,0 +1,194 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+}
+
+
+<body class="fixed-nav sticky-footer" id="page-top">
+	<!-- Navigation-->
+	@*<nav class="navbar navbar-expand-lg navbar-dark  fixed-top" id="mainNav">
+
+
+		</nav>*@
+	<div class="dashboard-tittle">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="page-title">
+						<h3><strong>Dashboard</strong></h3>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="refersh-section">
+						<a onclick="refreshDashboard()">
+							<i class="fas fa-retweet" aria-hidden="true"></i>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container-fluid mb-3">
+		<!-- Icon Cards-->
+		<div class="row">
+			<div class="col-xl-3 col-sm-6 mb-3">
+				<div class="card text-black  o-hidden h-100">
+					<div class="card-body">
+						<div class="card-body-icon">
+							<i class="fa fa-fw fa-list"></i>
+						</div>
+						<div class="mr-5">Total drive hosted till date!</div>
+						<div id="driveCount" style="color:#26c6da"></div>
+					</div>
+					<a class="card-footer text-white cust_blue" href="/Drive">
+						<span class="float-left">View Details</span>
+						<span class="float-right">
+							<i class="fa fa-chevron-right text-white"></i>
+						</span>
+					</a>
+				</div>
+			</div>
+			<div class="col-xl-3 col-sm-6 mb-3">
+				<div class="card text-black  o-hidden h-100">
+					<div class="card-body">
+						<div class="card-body-icon">
+							<i class="fa fa-check" aria-hidden="true"></i>
+						</div>
+						<div class="mr-5">Current live test!</div>
+						<div id="liveDriveCount" style="color:#ffba57"></div>
+					</div>
+					<a class="card-footer text-white cust_gold" href="/Drive/Index?isLive=true">
+						<span class="float-left">View Details</span>
+						<span class="float-right">
+							<i class="fa fa-chevron-right text-white"></i>
+						</span>
+					</a>
+				</div>
+			</div>
+			<div class="col-xl-3 col-sm-6 mb-3">
+				<div class="card text-black o-hidden h-100">
+					<div class="card-body">
+						<div class="card-body-icon">
+							<i class="fas fa-folder"></i>
+						</div>
+						<div class="mr-5">Upcoming drives (yet to start)!</div>
+						<div id="upcomingDriveCount" style="color:#9ccc65"></div>
+					</div>
+					<a class="card-footer text-white cust_green " href="/Drive/Index?isUpcomming=true">
+						<span class="float-left">View Details</span>
+						<span class="float-right">
+							<i class="fa fa-chevron-right text-white"></i>
+						</span>
+					</a>
+				</div>
+			</div>
+			<div class="col-xl-3 col-sm-6 mb-3">
+				<div class="card text-black o-hidden h-100">
+					<div class="card-body">
+						<div class="card-body-icon">
+							<i class="fa fa-list-alt"></i>
+						</div>
+						<div class="mr-5">Total Candidates Enrolled!</div>
+						<div id="candidateCount" style="color:#ff727f"></div>
+					</div>
+					<a class="card-footer text-white cust_red" href="/ApplicationUser/Candidates">
+						<span class="float-left">View Details</span>
+						<span class="float-right">
+							<i class="fa fa-angle-right"></i>
+						</span>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container-fluid">
+		<div class="row card_table">
+			<div class="col-lg-6 col-md-6">
+				<div class="card">
+					<h5 class="card-header fs-17">Total Candidates Enrolled</h5>
+					<div class="card-body">
+						<table class="table table-bordered">
+							<thead class="bg-lit-gray">
+								<tr>
+									<th>Today</th>
+									<th>Yesterday</th>
+									<th>Last 7 Days</th>
+									<th>Last 30 Days</th>
+									<th>Last 90 Days</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr id="tableBody"></tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-6 col-md-6">
+				<div class="card">
+					<h5 class="card-header  fs-17">Number of Drives Created</h5>
+					<div class="card-body">
+						<table class="table table-bordered">
+							<thead class="bg-lit-gray">
+								<tr>
+									<th>Today</th>
+									<th>Yesterday</th>
+									<th>Last 7 Days</th>
+									<th>Last 30 Days</th>
+									<th>Last 90 Days</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr id="tableBody1"></tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container-fluid">
+		<div class="row card_table card_wrapper_chart">
+			<div class="col-lg-6 ">
+				<div class="card">
+					<h5 class="card-header fs-17">Drives Created per month</h5>
+					<div class="card-body">
+						<canvas id="myBarChart" style="width:100%;max-width:1000px"></canvas>
+
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-6">
+				<div class="card">
+					<h5 class="card-header  fs-17">Percentage of Category Used in the Drives</h5>
+					<div class="card-body">
+						<canvas id="mydoughnutChart" style="width:100%;max-width:400px"></canvas>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+@*<script  src="~/js/Chart.js/chart.js" asp-append-version="true"></script>
+*@
+<link rel="stylesheet" href="~/css/sporta-css/master.min.css" asp-append-version="true" />
+@section Scripts{
+<script src="~/js/Chart.js/chart.js" asp-append-version="true"></script>
+<script src="~/js/sporta-js/dashboard.js" asp-append-version="true"></script>
+<script>
+
+	  const client = new signalR.HubConnectionBuilder().withUrl("/dashboard")
+		  .build();
+		   client.start().catch(err => console.error(err.toString()));
+		 client.on('NewDriveCreated',  function (model) {
+			  if(model.driveAssignee.includes(@User.GetUserId())||@User.GetUserRole()==1){
+		  	totalDriveCount();
+		   toastr.success("Drive Created", "A New Drive Has Been Created", {
+		    timeOut: 500
+	     });
+		  }
+		  
+		 });
+</script>
+}
+

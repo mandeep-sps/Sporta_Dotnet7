@@ -1,0 +1,172 @@
+﻿@{
+    Layout = null;
+    @inject Utils util
+    var env = util.GetEnvironment();
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test - Sporta</title>
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="~/css/matt.min.css" />
+    <link rel="stylesheet" href="~/css/sporta-css/master.min.css" />
+    <link rel="icon" href="/img/sps-icon.png" sizes="16x16 32x32" type="image/png">
+
+</head>
+<body>
+
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-sp-dark border-bottom border-dark box-shadow mb-3">
+            <div class="container-fluid">
+                <img src="~/img/logo-white.png" class="img-fluid" width="150" />
+                <div class="float-left">
+                    <span id="" class="pr-2" style="color:white">@User.GetName()</span>
+                    <button class="btn btn-sm btn-outline-white border-0" href="#" onclick="logout()"><i class="fas fa-power-off"></i></button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main role="main" class="container-fluid mb-5">
+
+        <div>
+            <h2 id="drive-name" class="text-theme font-weight-bold">Drive</h2>
+            <hr class="border border-theme" />
+            <div class="campus_content">
+                <div class="row">
+                    <div class="col-6">
+                        <h3 class="text-theme text-white font-weight-bold pl-4 pt-4">Instructions</h3>
+                        <ul class="pl-4">
+                            <li><i class="fas fa-sign-in-alt"></i> Make sure you have a proper internet connection.</li>
+                            <li>
+                                <i class="fas fa-sign-in-alt"></i> If your computer is taking unexpected time to load,
+                                it is recommended to reboot the system before you start the test.
+                            </li>
+                            <li><i class="fas fa-sign-in-alt"></i> Once you start the test, it is recommended to pursue it in one go for the complete duration.</li>
+                            <li><i class="fas fa-sign-in-alt"></i> If you face any issue in test load or it become unresponsive, please do hard-refresh (Ctrl+Shift+R) once.</li>
+                            <li><i class="fas fa-sign-in-alt"></i> Each catrgory has specific questions and time.</li>
+                            <li><i class="fas fa-sign-in-alt"></i> Please hover on category to see questions and time.</li>
+                            <li><i class="fas fa-sign-in-alt"></i> Once test will be started.</li>
+                            <li><i class="fas fa-sign-in-alt"></i> Don't lose the focus from the test screen.</li>
+                            <li><i class="fas fa-sign-in-alt"></i> Whenever you lose focus, we'll count your lost focus.</li>
+                            <li><i class="fas fa-sign-in-alt"></i> Negetive marking will be based on your lost focus count.</li>
+                            <li><i class="fas fa-sign-in-alt"></i> You can't disable fullscreen mode.</li>
+                            <li><i class="fas fa-sign-in-alt"></i> You can't click on 'Back' or 'Refresh' button.</li>
+                            <li><i class="fas fa-sign-in-alt"></i> ALL THE BEST :-)</li>
+
+                        </ul>
+                    </div>
+
+                    <div class="col-6 border-left">
+                        <h3 class="text-theme text-white font-weight-bold pl-4 pt-4">Test Categories</h3>
+                        <ul id="list-category" class="pl-4">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+
+    <!--For popup dialog box-->
+    <div id="sporta-modal-dialog-div"></div>
+
+    <footer class="bg-mid-black footer text-muted fixed-bottom">
+        <div class="container-fluid text-center">
+            &copy; @DateTime.Now.Year - SoftProdigy
+        </div>
+    </footer>
+
+
+    <script src="~/js/jquery-3.5.1.min.js"></script>
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/font-awesome-5.14.0.js"></script>
+    <script src="~/js/sporta-js/common.js" asp-append-version="true"></script>
+    <script>
+        var env='@env';
+        $(document).ready(function () {
+            $.get('/Candidate/GetDriveByCandidate', function (response) {
+                var data = response.data;
+
+               $('#drive-name').html(data.driveName);
+                $('#list-category').empty();
+                $.each(data.categories, function (index, item) {
+                    $('#list-category').append(`<li><a ${item.isAttempted ? '' : `href="javascript:startTest('/Candidate/Test?driveid=${data.driveId}&categoryId=${item.categoryId}&resultId=${item.resultId}','${item.category}')"
+                    data-toggle="tooltip" data-placement="left" title="Questions: ${item.categoryQuestion}, Time: ${item.categoryTime} min(s)"`}>
+                    <h5 class="${item.isAttempted ? 'text-muted':''}">${item.category}</h5></a></li>`);
+                });
+                if ((data.categories).filter(item => !item.isAttempted).length == 0){
+                      SportaUtil.MessageBoxSuccess("Your Test has been submitted. <br>Score will be shared by HR shortly. ", null, function () {
+                          location.href = '/ApplicationUser/logout';
+                      });
+                }
+                $('[data-toggle="tooltip"]').tooltip();
+            });
+
+            $.ajax({
+                url: "/ApplicationUser/GetEmail",
+                success: function (res) {
+                    $("#emailTxt").html(res);
+                }
+            });
+
+            var start_count = $('#test-start-count').html();
+
+            setInterval(function () {
+                if (start_count > 1)
+                    $('#test-start-count').html(--start_count);
+                else {
+                    clearInterval(this);
+                    $('#start-test-message').html('<span class="text-success">Click the button above to start the test</div>')
+                    $('#btn-start-test').prop('disabled', false);
+                }
+            }, 1000);
+
+            $('#btn-start-test').on('click', function () {
+                location.replace('/Candidate/Test')
+            });
+        });
+
+        //Exception handling through JS
+        $(document).ajaxError(function( event, jqxhr, settings, thrownError ) {
+            if (env != 'Development') {
+                $(document.body).html(jqxhr.responseText);
+            }
+        });
+
+
+        function startTest(url, categoryName) {
+            params = 'width=' + screen.availWidth;
+            params += ', height=' + screen.availHeight;
+            params += ', top=0, left=0'
+            params += ', directories=no';
+            params += ', location=no';
+            params += ', menubar=no';
+            params += ', status=no';
+            params += ', toolbar=no';
+            params += ', copyhistory=no';
+
+
+            window.open(url, categoryName, params);
+        }
+
+
+        function closeTestWindow(){
+            location.reload();
+        }
+
+        function logout() {
+            SportaUtil.ConfirmDialogue("Are you sure to logout?", null, function () {
+                location.href = '/ApplicationUser/logout';
+            })
+        }
+
+    </script>
+</body>
+</html>

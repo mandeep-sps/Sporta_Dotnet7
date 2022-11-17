@@ -1,0 +1,19 @@
+﻿@import 'variables';
+@import 'mixins';
+
+
+//Text Color
+@each $color,$value in $colors {
+    @include text-variant(".text-#{$color}",$value);
+}
+
+
+//Back ground Color
+@each $color,$value in $colors {
+    @include bg-variant(".bg-#{$color}",$value);
+}
+
+//Border Colors
+@each $color, $value in $colors {
+    @include border-variant(".border-#{$color}",$value);
+}

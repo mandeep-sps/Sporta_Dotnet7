@@ -1,0 +1,453 @@
+﻿@{
+    ViewData["Title"] = "Drives";
+    var isLive = ViewBag.IsLive;
+    var isUpcomming = ViewBag.IsUpcomming;
+}
+
+<div class="page-content">
+    <!-- Create/Edit Drive Form Start-->
+    <div class="sidebar">
+        <div class="sidebar-title">
+            Drive Form
+            <button type="button" class="close" aria-label="Close" data-dismiss="sidebar" id="popupclose">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="sidebar-body">
+            <form id="drive-form">
+                <div class="form-row">
+                    <input type="hidden" name="Id" id="txt-id" />
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="txt-drive-name" class="floating-label">Name</label>
+                            <input type="text" name="DriveName" id="txt-drive-name" class="form-control" />
+                            <div class="invalid-input-feedback"></div>
+
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group cust_calender">
+                            <label for="txt-scheduled" class="floating-label label-date">Schedule At</label>
+                            <input type="date" name="Scheduled" placeholder="Select Date & Time" id="txt-scheduled" autocomplete="off" class="form-control datetime" />
+                            <div class="invalid-input-feedback"></div>
+
+                        </div>
+                    </div>
+                </div>
+                @if (User.GetUserRole() == (int)UserRole.Admin)
+                {
+                    <div class="form-row">
+                        <div class="col-11">
+                            <div class="form-group">
+                                <label for="assignee-list" class="floating-label">Assign Executives</label>
+                                <select class="form-control selectpicker" name="DriveAssignee" id="assignee-list" data-live-search="true" multiple></select>
+                                <div class="invalid-input-feedback"></div>
+                            </div>
+
+                        </div> 
+                        <div class="col-1 text-align-right">
+                            <a class="btn btn-sm btn-theme btn-create-assignee" title="Add Executive" data-toggle="modal" data-target="#assigneeModal"> <i class="fas fa-plus"></i></a>
+                        </div>
+                    </div>
+                }
+                <div class="form-row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="categories-list" class="floating-label">Sections</label>
+                            <select class="form-control selectpicker" id="categories-list" data-live-search="true" multiple data-actions-box="true" data-size="5"></select>
+                            <div class="invalid-input-feedback"></div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div id="category-properties"></div>
+
+                <div class="form-row">
+                    <div class="col-12 text-center">
+                        <div class="">
+                            <button class="btn btn-md btn-theme" id="btn-submit">Submit</button>
+                            <button type="button" class="btn btn-md btn-danger" onclick="closeSideBar()">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+
+            <form id="assignee-form-pop" style="display:none">
+                <div class="form-row">
+                    <div class="col-sm-10 form-group">
+                        <label class="floating-label" for="txt-cname">Category Name</label>
+                        <input type="text" name="CategoryName" id="txt-cname" class="form-control" />
+                        <div class="invalid-input-feedback">This can not be blank!</div>
+                    </div>
+
+                    <div class="col-sm-2">
+                        <button type="submit" class="btn btn-theme"> <i class="fas fa-check"></i></button>
+                        <button type="button" class="btn btn-danger" onclick="closeCatForm()"><i class="fa fa-times" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!--Question Level Modal-->
+    <div class="modal fade" id="addQuestionModal" data-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" >
+            <div class="modal-content" id="m-content">
+                <div class="modal-header">
+                    Question Selection
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="popCloseQuestionlevel">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="modalBody">
+                    <h4 class="modal-title" id="category-Question-time" style="font-size:inherit"></h4>
+                    <nav>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <ul class="nav nav-pills mb-3" id="QuestionLevel-pills-tab" role="tablist">
+                                        <li class="nav-item" role="presentation">
+                                            <a class="nav-link" id="pills-easy-question-tab" data-toggle="pill" href="#pills-easy-question" role="tab" aria-controls="pills-question-Level" aria-selected="false">Easy</a>
+                                        </li>
+                                        <li class="nav-item" role="presentation">
+                                            <a class="nav-link active" id="pills-medium-question-tab" data-toggle="pill" href="#pills-medium-question" role="tab" aria-controls="pills-question-Level" aria-selected="true">Medium</a>
+                                        </li>
+
+                                        <li class="nav-item" role="presentation">
+                                            <a class="nav-link" id="pills-Hard-question-tab" data-toggle="pill" href="#pills-hard-question" role="tab" aria-controls="pills-question-Level" aria-selected="false">Hard</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+
+                    <div class="tab-content" id="QuestionLevel-pills-tab">
+
+                        <!--Easy Tab content-->
+                        <div class="tab-pane active mb-2" id="pills-easy-question" role="tabpanel" aria-labelledby="pills-easy-question-tab">
+                            <div class="tab-pane" id="tab-easy">
+                                <hr class="border-theme" />
+
+                                <table id="easy-Quesion-list" class="table table-sm table-responsive-md w-100">
+                                    <thead>
+                                        <tr>
+                                            <th><input type="checkbox" name="" value="" id="easycheckAll"></th>
+                                            <th>Question</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Selection</th>
+                                            <th>Question</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!--Medium Tab content-->
+                        <div class="tab-pane fade mb-2" id="pills-medium-question" role="tabpanel" aria-labelledby="pills-medium-question-tab">
+                            <div class="tab-pane" id="tab-medium">
+                                <hr class="border-theme" />
+
+                                <table id="medium-Question-list" class="table table-sm table-responsive-md w-100">
+                                    <thead>
+                                        <tr>
+                                            <th><input type="checkbox" name="" value="" id="mediumCheckAll"></th>
+                                            <th>Question</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Selection</th>
+                                            <th>Question</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!--Hard Tab content--> 
+                        <div class="tab-pane fade mb-2" id="pills-hard-question" role="tabpanel" aria-labelledby="pills-Hard-question-tab">
+                            <div class="tab-pane" id="tab-hard">
+                                <hr class="border-theme" />
+
+                                <table id="hard-Question-list" class="table table-sm table-responsive-md w-100">
+                                    <thead>
+                                        <tr>
+                                            <th><input type="checkbox" name="" value="" id="hardcheckAll"></th>
+                                            <th>Question</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Selection</th>
+                                            <th>Question</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 text-right" id="savebutton">
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="assigneeModal" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add Executive</h5>
+                </div>
+                <div class="modal-body">
+                    <form id="assignee-add-form">
+                        <div class="form-row">
+                            <div class="col-sm-5 form-group">
+                                <label class="floating-label" for="txt-name">Name</label>
+                                <input type="text" name="FirstName" id="txt-name" class="form-control" />
+                                <div class="invalid-input-feedback">This can not be blank!</div>
+                            </div>
+
+                            <div class="col-sm-5 form-group">
+                                <label class="floating-label" for="txt-email-id">Email</label>
+                                <input type="email" name="Username" id="txt-email-id" class="form-control" />
+                                <div class="invalid-input-feedback"></div>
+                            </div>
+
+                            <div class="col-sm-2">
+                                <button type="button" class="btn btn-sm btn-theme" onclick="addAssignee()"> <i class="fas fa-check"></i></button>
+                                <button type="button" class="btn btn-sm btn-danger" onclick="closeAssigneeForm()"><i class="fa fa-times" aria-hidden="true"></i></button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Create/Edit Drive Form End-->
+
+    <div>
+        <div class="row">
+            <div class="col-3">
+                <ul class="nav nav-pills mb-3" id="drive-pills-tab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="pills-active-drive-tab" data-toggle="pill" href="#pills-active-drive-content" role="tab" aria-controls="pills-active-drive" aria-selected="true">Drives</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="pills-archived-tab" data-toggle="pill" href="#pills-archived-content" role="tab" aria-controls="pills-archived" aria-selected="false">Archived</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-9">
+                <form id="archive-filter-form" class="collapse">
+                    <div class="form-row">
+                        <div class="form-group col-sm ">
+                            <label class="text-white pt-2"><i>Search Archived Drive</i></label>
+                        </div>
+                        <div class="form-group col-sm ">
+                            <label for="archive-drive-name" class="floating-label">Drive Name</label>
+                            <input type="text" name="DriveName" id="archive-drive-name" class="form-control" />
+                            <div class="invalid-input-feedback"></div>
+                        </div>
+
+                        <div class="form-group col-sm ">
+                            <label class="floating-label label-date" for="txt-start-date-id">Start Date</label>
+                            <input type="text" name="FromDate" autocomplete="off" placeholder="Select Date" id="txt-start-date-id" class="form-control date" />
+                            <div class="invalid-input-feedback"></div>
+                        </div>
+                        <div class="form-group col-sm">
+                            <label class="floating-label label-date" for="txt-end-date-id">End Date</label>
+                            <input type="date" name="ToDate" autocomplete="off" placeholder="Select Date" id="txt-end-date-id" class="form-control date" />
+                            <div class="invalid-input-feedback"></div>
+                        </div>
+                        <div class="form-group col-sm-1">
+                            <button type="submit" class="btn btn-outline-sp-blue" style="display: inline-block">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <div class="float-right" id="div-btn-create-new-drive">
+                    <button class="btn btn-sm btn-theme border-10 create_btn float-right" id="btn-create-drive" onclick="openDriveForm()">Create New Drive <i class="fas fa-plus"></i></button>
+                </div>
+            </div>
+        </div>
+        <!-- active drive Tab content-->
+        <div class="tab-content" id="drive-pills-tab-content">
+            <div class="tab-pane fade show active mb-2" id="pills-active-drive-content" role="tabpanel" aria-labelledby="pills-active-drive-tab">
+                <div class="tab-pane active" id="tab-active-drive">
+                    <hr class="border-theme" />
+                    <table id="drive-list" class="table table-sm  table-responsive-md w-100">
+                        <thead>
+                            <tr>
+                                <th>Drive</th>
+                                <th>Scheduled Time</th>
+                                <th>Sections</th>
+                                <th>Assigned Executives</th>
+                                <th>Enrolled Candidates</th>
+                                <th>Token ID</th>
+                                <th>Status</th>
+                                <th class="doNotExport">Action</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>Drive</th>
+                                <th>Scheduled Time</th>
+                                <th>Sections</th>
+                                <th>Assigned Executives</th>
+                                <th>Enrolled Candidated</th>
+                                <th>Token ID</th>
+                                <th>Status</th>
+                                <th class="doNotExport">Action</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+            <!--category Tab content-->
+            <div class="tab-pane fade mb-2" id="pills-archived-content" role="tabpanel" aria-labelledby="pills-archived-tab">
+                <div class="tab-pane active" id="tab-archived">
+                    <hr class="border-theme" />
+
+                    <table id="archive-drive-list" class="table table-sm table-responsive-md w-100">
+                        <thead>
+                            <tr>
+                                <th>Drive</th>
+                                <th>Scheduled Time</th>
+                                <th>Sections</th>
+                                <th>Assigned Executives</th>
+                                <th>Enrolled Candidated</th>
+                                <th>Token ID</th>
+                                @if (User.GetUserRole() == (int)UserRole.Admin)
+                                {
+                                    <th class="doNotExport">Action</th>
+                                }
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>Drive</th>
+                                <th>Scheduled Time</th>
+                                <th>Sections</th>
+                                <th>Assigned Executives</th>
+                                <th>Enrolled Candidated</th>
+                                <th>Token ID</th>
+                                @if (User.GetUserRole() == (int)UserRole.Admin)
+                                {
+                                    <th class="doNotExport">Action</th>
+                                }
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!---Pop For Drive Details-->
+<div class="modal fade" id="tableModalForDrive" data-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="driveNamefor" style="font-family:monospace"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body" id="modalBody">
+                <nav>
+                    <div class="container-fluid">
+                        <div>
+                            <ul class="nav nav-pills mb-3" id="candidate-pills-tab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link active" id="pills-candidate-details-tab" data-toggle="pill" href="#pills-candidate-details-content" role="tab" aria-controls="pills-candidate-details" aria-selected="true">Candidate</a>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link" id="pills-execuitve-details-tab" data-toggle="pill" href="#pills-execuitve-details" role="tab" aria-controls="pills-candidate-details" aria-selected="false" style="color:black">Executive</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+
+                <div class="tab-content" id="details-pills-tab-content">
+                    <div class="tab-pane fade show active mb-2" id="pills-candidate-details-content" role="tabpanel" aria-labelledby="pills-candidate-details-tabb">
+                        <div class="tab-pane active" id="tab-candidate-details">
+                            <hr class="border-theme" />
+                            <table id="candidate-list" class="table table-sm  table-responsive-md w-100">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Contact No.</th>
+                                        <th>Attempted</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Contact No.</th>
+                                        <th>Attempted</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade mb-2" id="pills-execuitve-details" role="tabpanel" aria-labelledby="pills-execuitve-details-tab">
+                        <div class="tab-pane active" id="tab-execuitve-details-tab">
+                            <hr class="border-theme" />
+
+                            <table id="executive-list" class="table table-sm table-responsive-md w-100">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">UserName</th>
+                                        <th scope="col">Executives</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="executive-tableBody">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+<script type="text/javascript" src="~/js/moment.min.js"></script>
+<script type="text/javascript" src="~/js/sporta-js/drive.js" asp-append-version="true"></script>
+<script>
+
+    var is_Live='@isLive';
+    var is_Upcomming='@isUpcomming';
+
+    if(is_Live|| is_Upcomming){
+        get_all_url = `/Drive/GetDrives?isLive=${is_Live}&isUpcomming=${is_Upcomming}`
+    }
+</script>
+
+}
+<style>
+    #m-content {
+        height: 600px;
+    }
+</style>

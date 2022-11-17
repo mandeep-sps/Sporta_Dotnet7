@@ -1,0 +1,200 @@
+﻿@import 'functions';
+@import 'utilities';
+
+//White background laout behind the forms
+.form-content {
+    background-color: #fff;
+    border: 1px solid #ededed;
+    border-radius: 5px;
+    height: inherit;
+}
+
+//overwriting bootstrap class
+.form-control {
+    border: 1px solid #ced4da;
+    //box-shadow: rgba(0,0,0,0.1) 0px 1px 5px;
+}
+
+
+//Bootstrap-select customization
+.bootstrap-select .btn-light {
+    background-color: #fff;
+}
+
+.bootstrap-select .btn-light:hover,
+.bootstrap-select .btn-light:active {
+    background-color: white;
+    color: #495057;
+}
+
+.filter-option {
+    border: 1px solid #ced4da;
+    border-radius: 3px;
+}
+
+.filter-option-inner-inner {
+    font-size: 100%;
+    color: #495057;
+}
+
+
+
+//overwriting bootstrap class
+.form-row {
+    margin-bottom: 10px;
+}
+
+
+//overwriting bootstrap class for toggle switch
+.custom-control-input:checked ~ .custom-control-label::before {
+    background-color: $theme-color !important;
+    border-color: $theme-color !important;
+    cursor: pointer !important;
+}
+
+.custom-switch .custom-control-label::before {
+    background-color: #c21b1b !important;
+    border-color: #c21b1b !important;
+    cursor: pointer !important;
+}
+
+.custom-switch .custom-control-input:disabled:checked ~ .custom-control-label::before {
+    background-color: rgba(26, 97, 42,0.8) !important;
+    cursor: not-allowed !important;
+}
+
+.custom-switch .custom-control-input:disabled ~ .custom-control-label::before {
+    background-color: rgba(128, 31, 31,0.8) !important;
+    cursor: not-allowed !important;
+}
+
+.custom-switch .custom-control-input:disabled ~ .custom-control-label::after {
+    background-color: #adb5bd;
+    cursor: not-allowed !important;
+}
+
+.custom-switch .custom-control-label::after {
+    background-color: #fff;
+    cursor: pointer !important;
+}
+
+
+
+
+//Dropdownmenu
+.dropdown-menu {
+    li {
+        a {
+            @include hover-focus-active {
+                text-decoration: none;
+                background-color: $theme-color;
+                color: color-contrast($theme-color);
+            }
+        }
+    }
+}
+
+.no-hover {
+    &:hover {
+        background-color: transparent !important;
+        color: #000 !important;
+    }
+}
+
+.btn-link {
+    &:hover {
+        cursor: pointer !important;
+    }
+}
+
+
+.dropdown-item.active, .dropdown-item:hover {
+    background-color: $theme-color;
+    color: #fff;
+}
+
+
+
+//Form labels and validations
+
+*:disabled,
+*.disabled,
+select:disabled,
+textarea:read-only {
+    cursor: not-allowed !important;
+}
+
+input[required] + label::after,
+textarea[required] + label::after,
+select[required] + label::after {
+    content: '\00a0 *';
+    display: inline-block;
+    color: red;
+}
+
+
+.btn:hover:enabled {
+    cursor: pointer !important;
+}
+
+input[type=file] {
+    cursor: pointer !important;
+}
+
+.form-group label.floating-label {
+    font-size: 100%;
+    position: absolute;
+    box-sizing: border-box;
+    color: #adb5bd;
+    left: 15px;
+    top: 8px;
+    z-index: 10;
+    width: auto;
+    padding: 1px;
+    transition: font-size .2s, transform .2s
+}
+
+.has-value,
+.has-value:disabled {
+    font-size: 90% !important;
+    font-weight: 700;
+    background-color: white;
+    z-index: 2;
+    transform: translate(0px,-20px);
+}
+
+@each $color,$value in $colors {
+    .has-value-#{$color} {
+        color: $value !important;
+    }
+
+    .has-value-input-#{$color} {
+        box-shadow: none !important;
+        border: 2px solid $value !important;
+    }
+}
+
+.has-value-theme {
+    @extend .has-value-#{$theme-color-name};
+}
+
+.has-value-input-theme {
+    @extend .has-value-input-#{$theme-color-name};
+}
+
+
+.valid-input {
+    border: 1px solid #32a852;
+}
+
+.invalid-input {
+    border: 1px solid map-get($colors,'red');
+}
+
+
+.invalid-input-feedback {
+    display: none;
+    color: map-get($colors,'red');
+    font-weight: 500;
+    font-size: 80%;
+}

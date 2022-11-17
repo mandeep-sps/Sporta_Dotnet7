@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31829.152
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sporta.WebApp", "Sporta.WebApp\Sporta.WebApp.csproj", "{15851FD6-9F30-42CE-BE37-7D743B62487F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sporta.Data", "Sporta.Data\Sporta.Data.csproj", "{934A5587-3497-4975-B424-797CACC50C9A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{15851FD6-9F30-42CE-BE37-7D743B62487F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15851FD6-9F30-42CE-BE37-7D743B62487F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15851FD6-9F30-42CE-BE37-7D743B62487F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15851FD6-9F30-42CE-BE37-7D743B62487F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{934A5587-3497-4975-B424-797CACC50C9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{934A5587-3497-4975-B424-797CACC50C9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{934A5587-3497-4975-B424-797CACC50C9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{934A5587-3497-4975-B424-797CACC50C9A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A8104E44-C735-46DF-97C9-77D850E3063B}
+	EndGlobalSection
+EndGlobal
